@@ -112,17 +112,15 @@ var print = function (graphics) {
 
     for (var j = 0; j < graphics.length; j++) {
         var graph = graphics[j];
+
         var driver = graph['driver'];
-        var work = graph['work'];
-        var bus = null;
-        if (work != null){
-            bus = work['bus'];
-        }
         row = $('<tr></tr>');
         var date = new Date(graph['date']);
         var rowData;
-        if (work != null && bus != null){
-            rowData = $('<td>' + driver['lastName'] + '</td><td>' + driver['firstName'] + '</td><td>' + driver['patronymic'] + '</td><td>' + graph['date'] + '</td><td>' + graph['shift'] + '</td><td>' + work['busId'] + '</td><td>' + bus['mark'] + ' ' + bus['model'] + '</td><td><input type="button" value="-" onclick="ondelete(' + work['id'] + ')">');
+        var bus = graph['bus'];
+
+        if (graph['busId'] != null && bus != null){
+            rowData = $('<td>' + driver['lastName'] + '</td><td>' + driver['firstName'] + '</td><td>' + driver['patronymic'] + '</td><td>' + graph['date'] + '</td><td>' + graph['shift'] + '</td><td>' + bus['id'] + '</td><td>' + bus['mark'] + ' ' + bus['model'] + '</td><td><input type="button" value="-" onclick="ondelete(' + graph['id'] + ')">');
         }
         else{
             var id = "select" + j.toString();

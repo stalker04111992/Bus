@@ -1,4 +1,3 @@
-<%@ page import="java.util.Date" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
@@ -10,11 +9,11 @@
 </head>
 <body>
 <script type="text/javascript">
-    var driver = '${driver}';             //информация о водителях
+    var driver = '${driver}';
     var jsonDriver = JSON.parse(driver);
     var graphs = '${graphs}';
     var graphics= JSON.parse(graphs);
-    var error = '${error}';                 //сообщение об ошибке
+    var error = '${error}';
 
     $(document).ready(function () {
 
@@ -41,13 +40,12 @@
 
             for (var j = 0; j < graphics.length; j++) {
                 var graph = graphics[j];
-                var work = graph['work'];
 
                 row = $('<tr></tr>');
                 var date = new Date(graph['date']);
                 var rowData;
-                if (work != null){
-                    rowData = $('<td>' + graph['date'] + '</td><td>' + graph['shift'] + '</td><td>' + work['busId'].toString() + '</td>');
+                if (graph['busId'] != null){
+                    rowData = $('<td>' + graph['date'] + '</td><td>' + graph['shift'] + '</td><td>' + graph['busId'].toString() + '</td>');
                 }
                 else{
                     rowData = $('<td>' + graph['date'] + '</td><td>' + graph['shift'] + '</td><td>' + 'Не задан' + '</td>');

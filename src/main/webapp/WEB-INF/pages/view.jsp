@@ -10,11 +10,9 @@
 <body>
 
 <script type="text/javascript">
-    var drivers = '${drivers}';             //информация о водителях
-    var jsonData = JSON.parse(drivers);     //парсинг json
-    var error = '${error}';                 //сообщение об ошибке
-    var start = 0;
-    var end = 19;
+    var drivers = '${drivers}';
+    var jsonData = JSON.parse(drivers);
+    var error = '${error}';
 
     $(document).ready(function () {
 
@@ -33,7 +31,6 @@
         var table = $('<table></table>').addClass('table_blur');
         var row = $('<th>Таб. номер</th><th>Фамилия</th><th>Имя</th><th>Отчество</th>');
         table.append(row);
-        var length = jsonData.length > end ? end : jsonData.length;
         for (var j = 0; j < jsonData.length; j++) {
             var driver = jsonData[j];
             row = $('<tr></tr>');

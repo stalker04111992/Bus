@@ -1,5 +1,6 @@
 package entities;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -21,7 +22,10 @@ public class Graph {
     @Column(name = "date", nullable = false)
     private Date date;
     @Column(name = "shift", nullable = false)
-    private int shift;
+    private Integer shift;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @Column(name = "busId")
+    private Integer busId;
 
     @OnDelete(action = OnDeleteAction.CASCADE)
     @ManyToOne(fetch = FetchType.EAGER)
@@ -29,26 +33,28 @@ public class Graph {
     private Driver driver;
 
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @OneToOne(mappedBy="graph", fetch = FetchType.EAGER, cascade = {CascadeType.ALL}, orphanRemoval = true)
-    @PrimaryKeyJoinColumn
-    private Work work;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="busId", insertable = false, updatable = false)
+    private Bus bus;
 
     public static Graph createGraph(HttpServletRequest request) throws NullPointerException, NumberFormatException, ParseException {
         String date = request.getParameter("date");
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         java.util.Date parsed = format.parse(date);
         Date sqlDate = new  Date(parsed.getTime());
-        int shift = new Integer(request.getParameter("shift"));
+        Integer shift = new Integer(request.getParameter("shift"));
+        Integer bus = new Integer(request.getParameter("bus"));
         int driverId = new Integer(request.getParameter("number"));
-        return new Graph(driverId, sqlDate, shift);
+        return new Graph(driverId, sqlDate, shift, bus);
     }
 
     public Graph(){}
 
-    public Graph(int driverId, Date date, int shift){
+    public Graph(int driverId, Date date, Integer shift, Integer bus){
         this.setDriverId(driverId);
         this.setDate(date);
         this.setShift(shift);
+        this.setBusId(bus);
     }
 
     public int getId() {
@@ -75,11 +81,11 @@ public class Graph {
         this.driverId = driverId;
     }
 
-    public int getShift() {
+    public Integer getShift() {
         return shift;
     }
 
-    public void setShift(int shift) {
+    public void setShift(Integer shift) {
         this.shift = shift;
     }
 
@@ -106,11 +112,19 @@ public class Graph {
         return false;
     }
 
-    public Work getWork() {
-        return work;
+    public Integer getBusId() {
+        return busId;
     }
 
-    public void setWorks(Work work) {
-        this.work = work;
+    public void setBusId(Integer busId) {
+        this.busId = busId;
+    }
+
+    public Bus getBus() {
+        return bus;
+    }
+
+    public void setBus(Bus bus) {
+        this.bus = bus;
     }
 }

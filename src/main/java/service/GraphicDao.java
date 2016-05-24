@@ -59,6 +59,23 @@ public class GraphicDao {
         return query.executeUpdate();
     }
 
+    public int setBus(int graph, int bus)throws SQLException {
+        Query query = em.createNativeQuery("{call setBus(?,?)}",
+                Graph.class)
+                .setParameter(1, graph)
+                .setParameter(2, bus)
+                ;
+        return query.executeUpdate();
+    }
+
+    public int setBusNull(int graph)throws SQLException {
+        Query query = em.createNativeQuery("{call setBusNull(?)}",
+                Graph.class)
+                .setParameter(1, graph)
+                ;
+        return query.executeUpdate();
+    }
+
     public int deleteGraph(int id)throws SQLException {
         Query query = em.createNativeQuery("{call deleteGraph(?)}",
                 Graph.class)

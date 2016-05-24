@@ -4,7 +4,7 @@
     <title>Добавить автобус</title>
     <link href="css/MainStyle.css" rel="stylesheet" type="text/css">
     <script type="text/javascript" src="js/jquery-1.4.2.min.js"></script>
-    <script type="text/javascript" src="js/addition.js"></script>
+    <script type="text/javascript" src="../../js/addition.js"></script>
 </head>
 <body>
 

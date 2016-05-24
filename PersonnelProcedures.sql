@@ -201,25 +201,25 @@ create procedure deleteGraph
 @number int
 as begin
 	delete graph
-		where id = @number and datediff(day, GETDATE(), [date]) >= 0;
+		where id = @number and datediff(day, GETDATE(), [date]) > 0;
 end
 
 drop procedure deleteGraph
 
+create procedure setBus
+@graph int, @bus int
+as 
+	update graph
+	set busId = @bus where id = @graph
+	return 0
+--drop procedure
+drop procedure setBus
 
-create procedure addWork
-@busId int, @graphId int
-as begin
-	insert into work(busId, graphId) values(@busId, @graphId);
-end
-
-drop procedure addWork
-
-create procedure deleteWork
-@number int
-as begin
-	delete work
-		where id = @number;
-end
-
-drop procedure deleteWork
+create procedure setBusNull
+@graph int
+as 
+	update graph
+	set busId = null where id = @graph
+	return 0
+--drop procedure
+drop procedure setBusNull

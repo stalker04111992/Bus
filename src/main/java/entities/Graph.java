@@ -32,10 +32,7 @@ public class Graph {
     @JoinColumn(name="driverId", insertable = false, updatable = false)
     private Driver driver;
 
-    @PreRemove
-    private void removeAssociationsWithChilds() {
-        this.setBusId(null);
-    }
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="busId", insertable = false, updatable = false)
     private Bus bus;

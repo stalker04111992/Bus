@@ -1,0 +1,69 @@
+package service;
+
+import entities.Graph;
+
+import javax.ejb.Stateless;
+import javax.naming.NamingException;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import java.sql.Date;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
+@Stateless
+public class GraphicDao {
+
+    @PersistenceContext(unitName = "Depot")
+    private EntityManager em;
+
+    public ArrayList<Graph> findGraphToday(Date date, int shift)throws SQLException, NamingException {
+        Query query = em.createNativeQuery("{call findGraphToday(?,?)}", Graph.class)
+                .setParameter(1, date)
+                .setParameter(2, shift)
+                ;
+        return new ArrayList<Graph>(query.getResultList());
+    }
+
+    public ArrayList<Graph> selectMonth (int driverId) throws SQLException, NamingException {
+        Query query = em.createNativeQuery("{call selectGraph(?)}",
+                Graph.class)
+                .setParameter(1, driverId)
+                ;
+        return (ArrayList<Graph>)query.getResultList();
+    }
+
+    public ArrayList<Graph> selectMonthFull (int driverId) throws SQLException, NamingException {
+        Query query = em.createNativeQuery("{call selectGraphFull(?)}",
+                Graph.class)
+                .setParameter(1, driverId)
+                ;
+        return (ArrayList<Graph>)query.getResultList();
+    }
+
+    public int addShift(int id, Date startDate, int shift)throws SQLException {
+        Query query = em.createNativeQuery("{call addShift(?,?,?)}",
+                Graph.class)
+                .setParameter(1, id)
+                .setParameter(2, startDate)
+                .setParameter(3, shift)
+                ;
+        return query.executeUpdate();
+    }
+
+    public int delete(int id)throws SQLException {
+        Query query = em.createNativeQuery("{call deleteGraphic(?)}",
+                Graph.class)
+                .setParameter(1, id)
+                ;
+        return query.executeUpdate();
+    }
+
+    public int deleteGraph(int id)throws SQLException {
+        Query query = em.createNativeQuery("{call deleteGraph(?)}",
+                Graph.class)
+                .setParameter(1, id)
+                ;
+        return query.executeUpdate();
+    }
+}

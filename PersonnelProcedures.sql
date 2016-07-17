@@ -1,38 +1,55 @@
-use BusDepot;
-go
+USE BusDepot;
+GO
 
 
-create procedure getCountsDrivers @number int, @licenseNumber varchar(10)
-as
-begin	
-	(select count(*) from driver where licenseNumber = @licenseNumber and @number != id);
-end
-drop procedure getCountsDrivers
----------------------------------------------------
+CREATE PROCEDURE spGetCountsDrivers (
+	@number int, 
+	@licenseNumber varchar(10)
+)
+AS
+BEGIN	
+	(
+		SELECT 
+			COUNT(id) 
+		FROM driver 
+		WHERE licenseNumber = @licenseNumber AND @number != id
+	);
+END
+
+/*
+DROP PROCEDURE spGetCountsDrivers
+*/
+
+GO
+
 --выбрать сотрудника по id
-create procedure findById
-@id int
-as
-	select D.* from driver D where D.id = @id;
+CREATE PROCEDURE spFindById
+(
+	@id int
+)
+AS
+BEGIN
+	SELECT 
+		id,
+		lastName,
+		firstName,
+		patronymic,
+		birthDate,
+		[address],
+		telephone,
+		licenseNumber
+	FROM driver 
+	WHERE id = @id;
+END
+/*
 	select G.* from graph G where G.driverId = @id and G.date >= GETDATE();
 
 --удалить процедуру
-drop procedure findById
+DROP PROCEDURE spFindById
+*/
 
----------------------------------------------------
-go
+GO
 
---выбрать свободного сотрудника по id
-create procedure findFreeById
-@id int
-as
-	select D.* from driver D where D.id = @id and not exists(select G.driverId from graph G where D.id = G.driverId);
---удалить процедуру
-drop procedure findFreeById
-
----------------------------------------------------
-
-go
 --поиск по фамилии
 create procedure findByLastName
 @lastName varchar(50)

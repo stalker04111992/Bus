@@ -17,7 +17,7 @@ public class DriverDao {
     private EntityManager em;
 
     public int getCountsDrivers(int number, String licenseNumber)throws NumberFormatException{
-        Query query = em.createNativeQuery("{call getCountsDrivers(?,?) }")
+        Query query = em.createNativeQuery("{call spGetCountsDrivers(?,?) }")
                 .setParameter(1, number)
                 .setParameter(2, licenseNumber)
                 ;
@@ -25,7 +25,7 @@ public class DriverDao {
     }
 
     public int saveDriver(Driver driver)throws SQLException {
-        Query query = em.createNativeQuery("{call saveDriver(?,?,?,?,?,?,?)}",
+        Query query = em.createNativeQuery("{call spSaveDriver(?,?,?,?,?,?,?)}",
                 Driver.class)
                 .setParameter(1, driver.getLastName())
                 .setParameter(2, driver.getFirstName())
@@ -39,7 +39,7 @@ public class DriverDao {
     }
 
     public int updateDriver(Driver driver)throws SQLException {
-        Query query = em.createNativeQuery("{call updateDriver(?,?,?,?,?)}",
+        Query query = em.createNativeQuery("{call spUpdateDriver(?,?,?,?,?)}",
                 Driver.class)
                 .setParameter(1, driver.getId())
                 .setParameter(2, driver.getLastName())
@@ -52,12 +52,12 @@ public class DriverDao {
     }
 
     public ArrayList<Driver> findAll()throws SQLException, NamingException {
-        Query query = em.createNativeQuery("{call getAllDrivers()}", Driver.class);
+        Query query = em.createNativeQuery("{call spGetAllDrivers()}", Driver.class);
         return new ArrayList<Driver>(query.getResultList());
     }
 
     public ArrayList<Driver> findToday(Date date, int shift)throws SQLException, NamingException {
-        Query query = em.createNativeQuery("{call findToday(?,?)}", Driver.class)
+        Query query = em.createNativeQuery("{call spFindToday(?,?)}", Driver.class)
                 .setParameter(1, date)
                 .setParameter(2, shift)
                 ;
@@ -65,21 +65,21 @@ public class DriverDao {
     }
 
     public ArrayList<Driver> findByNumber (int number) throws SQLException, NamingException {
-        Query query = em.createNativeQuery("{call findById(?)}",
+        Query query = em.createNativeQuery("{call spFindById(?)}",
                 Driver.class)
                 .setParameter(1, number);
         return new ArrayList<Driver>(query.getResultList());
     }
 
     public ArrayList<Driver> findByLastName (String lastName) throws SQLException, NamingException {
-        Query query = em.createNativeQuery("{call findByLastName(?)}",
+        Query query = em.createNativeQuery("{call spFindByLastName(?)}",
                 Driver.class)
                 .setParameter(1, lastName);
         return new ArrayList<Driver>(query.getResultList());
     }
 
     public int delete(int index)throws SQLException{
-        Query query = em.createNativeQuery("{call deleteDriver(?)}",
+        Query query = em.createNativeQuery("{call spDeleteDriver(?)}",
                 Driver.class)
                 .setParameter(1, index);
         return query.executeUpdate();

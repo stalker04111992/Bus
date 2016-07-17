@@ -19,7 +19,7 @@ public class BusDao{
     private EntityManager em;
 
     public int getCountsBuses(int number, String regNumber)throws NumberFormatException{
-        Query query = em.createNativeQuery("{call getCountsBuses(?,?) }")
+        Query query = em.createNativeQuery("{call spGetCountsBuses(?,?) }")
                 .setParameter(1, number)
                 .setParameter(2, regNumber)
                 ;
@@ -27,7 +27,7 @@ public class BusDao{
     }
 
     public int saveBus(Bus bus)throws SQLException {
-        Query query = em.createNativeQuery("{call saveBus(?,?,?,?,?,?)}",
+        Query query = em.createNativeQuery("{call spSaveBus(?,?,?,?,?,?)}",
                 Bus.class)
                 .setParameter(1, bus.getRegNumber())
                 .setParameter(2, bus.getMark())
@@ -39,21 +39,21 @@ public class BusDao{
     }
 
     public ArrayList<Bus> findByRegNumber (String number) throws SQLException, NamingException{
-        Query query = em.createNativeQuery("{call findByRegNumber(?)}",
+        Query query = em.createNativeQuery("{call spFindByRegNumber(?)}",
                 Bus.class)
                 .setParameter(1, number);
         return new ArrayList<Bus>(query.getResultList());
     }
 
     public ArrayList<Bus> findByNumber (int number) throws SQLException, NamingException{
-        Query query = em.createNativeQuery("{call findByNumber(?)}",
+        Query query = em.createNativeQuery("{call spFindByNumber(?)}",
                 Bus.class)
                 .setParameter(1, number);
         return new ArrayList<Bus>(query.getResultList());
     }
 
     public ArrayList<Bus> findFreeToday(Date date, int shift)throws SQLException, NamingException {
-        Query query = em.createNativeQuery("{call findFreeToday(?,?)}", Bus.class)
+        Query query = em.createNativeQuery("{call spFindFreeToday(?,?)}", Bus.class)
                 .setParameter(1, date)
                 .setParameter(2, shift)
                 ;
@@ -61,12 +61,12 @@ public class BusDao{
     }
 
     public ArrayList<Bus> findAll()throws SQLException, NamingException {
-        Query query = em.createNativeQuery("{call getAllBuses()}", Bus.class);
+        Query query = em.createNativeQuery("{call spGetAllBuses()}", Bus.class);
         return new ArrayList<Bus>(query.getResultList());
     }
 
     public int updateBus(Bus bus)throws SQLException{
-        Query query = em.createNativeQuery("{call updateBus(?,?,?,?,?,?,?)}",
+        Query query = em.createNativeQuery("{call spUpdateBus(?,?,?,?,?,?,?)}",
                 Bus.class)
                 .setParameter(1, bus.getId())
                 .setParameter(2, bus.getRegNumber())
@@ -79,7 +79,7 @@ public class BusDao{
     }
 
     public int delete(int index)throws SQLException{
-        Query query = em.createNativeQuery("{call deleteBus(?)}",
+        Query query = em.createNativeQuery("{call spDeleteBus(?)}",
                 Bus.class)
                 .setParameter(1, index);
         return query.executeUpdate();

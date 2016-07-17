@@ -18,7 +18,7 @@ public class GraphicDao {
     private EntityManager em;
 
     public ArrayList<Graph> findGraphToday(Date date, int shift)throws SQLException, NamingException {
-        Query query = em.createNativeQuery("{call findGraphToday(?,?)}", Graph.class)
+        Query query = em.createNativeQuery("{call spFindGraphToday(?,?)}", Graph.class)
                 .setParameter(1, date)
                 .setParameter(2, shift)
                 ;
@@ -26,7 +26,7 @@ public class GraphicDao {
     }
 
     public ArrayList<Graph> selectMonth (int driverId) throws SQLException, NamingException {
-        Query query = em.createNativeQuery("{call selectGraph(?)}",
+        Query query = em.createNativeQuery("{call spSelectGraph(?)}",
                 Graph.class)
                 .setParameter(1, driverId)
                 ;
@@ -34,7 +34,7 @@ public class GraphicDao {
     }
 
     public ArrayList<Graph> selectMonthFull (int driverId) throws SQLException, NamingException {
-        Query query = em.createNativeQuery("{call selectGraphFull(?)}",
+        Query query = em.createNativeQuery("{call spSelectGraphFull(?)}",
                 Graph.class)
                 .setParameter(1, driverId)
                 ;
@@ -42,7 +42,7 @@ public class GraphicDao {
     }
 
     public int addShift(int id, Date startDate, int shift)throws SQLException {
-        Query query = em.createNativeQuery("{call addShift(?,?,?)}",
+        Query query = em.createNativeQuery("{call spAddShift(?,?,?)}",
                 Graph.class)
                 .setParameter(1, id)
                 .setParameter(2, startDate)
@@ -52,7 +52,7 @@ public class GraphicDao {
     }
 
     public int delete(int id)throws SQLException {
-        Query query = em.createNativeQuery("{call deleteGraphic(?)}",
+        Query query = em.createNativeQuery("{call spDeleteGraphic(?)}",
                 Graph.class)
                 .setParameter(1, id)
                 ;
@@ -60,7 +60,7 @@ public class GraphicDao {
     }
 
     public int setBus(int graph, int bus)throws SQLException {
-        Query query = em.createNativeQuery("{call setBus(?,?)}",
+        Query query = em.createNativeQuery("{call spSetBus(?,?)}",
                 Graph.class)
                 .setParameter(1, graph)
                 .setParameter(2, bus)
@@ -69,7 +69,7 @@ public class GraphicDao {
     }
 
     public int setBusNull(int graph)throws SQLException {
-        Query query = em.createNativeQuery("{call setBusNull(?)}",
+        Query query = em.createNativeQuery("{call spSetBusNull(?)}",
                 Graph.class)
                 .setParameter(1, graph)
                 ;
@@ -77,7 +77,7 @@ public class GraphicDao {
     }
 
     public int deleteGraph(int id)throws SQLException {
-        Query query = em.createNativeQuery("{call deleteGraph(?)}",
+        Query query = em.createNativeQuery("{call spDeleteGraph(?)}",
                 Graph.class)
                 .setParameter(1, id)
                 ;
